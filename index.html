@@ -5,58 +5,64 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="A simple, editable collection of useful links.">
   <title>My List</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300&display=swap" rel="stylesheet">
   <style>
-    :root { --ink:#172033; --muted:#677189; --line:#dce2ec; --paper:#fff; --bg:#f4f6fa; --blue:#2457d6; --blue2:#1745b8; --danger:#c63f4a; }
+    :root { --ink:#172033; --muted:#697386; --line:#dfe7e2; --paper:#fff; --bg:#f3f8f5; --green:#16a34a; --green2:#15803d; --mint:#e9f9ee; --danger:#c9475b; }
     * { box-sizing:border-box; }
-    body { margin:0; min-height:100vh; font:16px/1.5 Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; color:var(--ink); background:var(--bg); }
+    body { margin:0; min-height:100vh; font:16px/1.5 "Inter",ui-sans-serif,system-ui,sans-serif; color:var(--ink); background:var(--bg); overflow-x:hidden; }
     button,input { font:inherit; }
     button { cursor:pointer; }
-    .topbar { height:68px; padding:0 max(20px,calc((100vw - 960px)/2)); display:flex; align-items:center; justify-content:space-between; background:var(--paper); border-bottom:1px solid var(--line); }
-    .brand { font-size:1.15rem; font-weight:750; letter-spacing:-.02em; }
-    .admin-link { border:1px solid var(--line); background:#fff; color:var(--ink); border-radius:9px; padding:9px 14px; font-weight:650; }
-    main { width:min(920px,calc(100% - 32px)); margin:38px auto 72px; }
-    .section { margin-bottom:30px; }
-    .section-title { margin:0 0 11px; font-size:1rem; text-transform:uppercase; letter-spacing:.08em; color:var(--muted); }
-    .list { overflow:hidden; border:1px solid var(--line); border-radius:14px; background:var(--paper); box-shadow:0 5px 18px rgba(31,47,76,.05); }
-    .item { display:grid; grid-template-columns:minmax(0,1fr) auto auto; align-items:center; gap:10px; min-height:67px; padding:12px 14px 12px 20px; border-bottom:1px solid var(--line); }
-    .item:last-child { border-bottom:0; }
-    .item-name { min-width:0; font-weight:680; overflow-wrap:anywhere; }
-    .btn { display:inline-flex; align-items:center; justify-content:center; min-width:104px; padding:10px 15px; border:1px solid var(--line); border-radius:9px; color:var(--ink); background:#fff; font-weight:700; text-decoration:none; transition:.15s ease; }
-    .btn:hover { border-color:#aeb8ca; transform:translateY(-1px); }
-    .btn.primary { border-color:var(--blue); background:var(--blue); color:#fff; }
-    .btn.primary:hover { background:var(--blue2); }
-    .empty { padding:34px 20px; text-align:center; color:var(--muted); background:#fff; border:1px dashed #bdc6d5; border-radius:14px; }
+    .topbar { height:48px; padding:8px max(14px,calc((100vw - 1320px)/2)); display:flex; align-items:center; justify-content:space-between; background:transparent; }
+    .signature { color:var(--green2); font-size:.8rem; font-style:italic; font-weight:300; letter-spacing:.035em; line-height:1; }
+    .admin-link { border:1px solid #d7dde7; background:#fff; color:#4b5565; border-radius:6px; padding:6px 10px; font-size:.875rem; font-weight:600; transition:.15s ease; }
+    .admin-link:hover{border-color:#aeb8c8;background:#f9fafb}
+    main { width:min(1320px,calc(100% - 28px)); margin:2px auto 48px; display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px; align-items:start; }
+    .section { min-width:0; padding:12px; border:1px solid var(--line); border-radius:9px; background:#fff; }
+    .section-title { margin:0 0 9px; font-size:.9375rem; font-weight:700; letter-spacing:-.005em; color:var(--green2); }
+    .list { display:grid; gap:6px; }
+    .item { display:flex; align-items:center; justify-content:flex-start; gap:3px; min-height:48px; padding:6px 6px 6px 10px; border:1px solid var(--line); border-radius:7px; background:var(--paper); }
+    .item:hover{border-color:#b7c8bd}
+    .item-name { min-width:0; flex:0 1 auto; margin-right:2px; font-weight:600; font-size:.9375rem; overflow-wrap:anywhere; }
+    .btn { display:inline-flex; align-items:center; justify-content:center; min-width:76px; padding:6px 8px; border:1px solid #d5dce6; border-radius:6px; color:#344054; background:#fff; font-weight:600; font-size:.875rem; line-height:1.25; text-decoration:none; transition:.15s ease; }
+    .btn:hover { border-color:#aeb8c8; background:#f8fafc; }
+    .btn.primary { border-color:var(--green); background:var(--green); color:#fff; box-shadow:0 1px 2px rgba(16,24,40,.08); }
+    .btn.primary:hover { background:var(--green2); }
+    .empty { grid-column:1/-1; padding:34px 20px; text-align:center; color:var(--muted); background:#fff; border:2px dashed var(--line); border-radius:22px; }
     .overlay { position:fixed; inset:0; z-index:10; display:none; background:rgba(18,26,43,.42); backdrop-filter:blur(3px); }
     .overlay.open { display:block; }
-    .panel { margin-left:auto; width:min(620px,100%); height:100%; overflow:auto; background:#fff; box-shadow:-16px 0 50px rgba(15,28,52,.18); }
-    .panel-head { position:sticky; top:0; z-index:2; display:flex; align-items:center; justify-content:space-between; padding:18px 22px; background:#fff; border-bottom:1px solid var(--line); }
-    .panel-head h2 { margin:0; font-size:1.18rem; }
-    .icon-btn { width:38px; height:38px; border:1px solid var(--line); border-radius:9px; background:#fff; font-size:1.25rem; }
-    .panel-body { padding:22px; }
-    .field { display:grid; gap:6px; margin-bottom:16px; }
+    .panel { margin-left:auto; width:min(600px,100%); height:100%; overflow:auto; background:#fff; box-shadow:-12px 0 36px rgba(15,28,52,.16); }
+    .panel-head { position:sticky; top:0; z-index:2; display:flex; align-items:center; justify-content:space-between; padding:14px 18px; background:rgba(255,255,255,.96); border-bottom:1px solid var(--line); backdrop-filter:blur(12px); }
+    .panel-head h2,.login h3 { font-family:"Inter",sans-serif; }
+    .panel-head h2 { margin:0; font-size:1.125rem; }
+    .icon-btn { width:34px; height:34px; border:1px solid var(--line); border-radius:7px; background:#fff; color:#344054; font-size:1.1rem; }
+    .panel-body { padding:18px; }
+    .field { display:grid; gap:5px; margin-bottom:12px; }
     label { font-size:.88rem; font-weight:720; color:#414c62; }
-    input { width:100%; border:1px solid #cbd3e0; border-radius:9px; padding:10px 12px; color:var(--ink); background:#fff; }
-    input:focus { outline:3px solid rgba(36,87,214,.14); border-color:var(--blue); }
+    input { width:100%; border:1px solid #cfd6e1; border-radius:7px; padding:8px 10px; color:var(--ink); background:#fff; }
+    input:focus { outline:3px solid rgba(22,163,74,.14); border-color:var(--green); }
     .login { max-width:380px; margin:70px auto; }
     .login h3 { margin:0 0 8px; font-size:1.4rem; }
     .login p,.hint { color:var(--muted); font-size:.9rem; }
     .admin-content { display:none; }
     .admin-content.visible { display:block; }
-    .editor-section { padding:16px; margin-bottom:16px; border:1px solid var(--line); border-radius:12px; background:#f9fafc; }
+    .editor-section { padding:12px; margin-bottom:12px; border:1px solid var(--line); border-radius:9px; background:#f8fafc; }
     .editor-section-head,.editor-actions,.save-row { display:flex; gap:9px; align-items:center; }
     .editor-section-head input { font-weight:750; }
     .editor-actions { justify-content:flex-end; margin-top:10px; flex-wrap:wrap; }
-    .editor-item { margin-top:12px; padding:13px; border:1px solid var(--line); border-radius:10px; background:#fff; }
+    .editor-item { margin-top:9px; padding:10px; border:1px solid var(--line); border-radius:8px; background:#fff; }
     .editor-item .grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
     .small { padding:8px 11px; min-width:auto; font-size:.88rem; }
     .danger { color:var(--danger); }
-    .save-row { position:sticky; bottom:0; justify-content:flex-end; margin:24px -22px -22px; padding:14px 22px; background:rgba(255,255,255,.96); border-top:1px solid var(--line); }
+    .save-row { position:sticky; bottom:0; justify-content:flex-end; margin:24px -22px -22px; padding:14px 22px; background:rgba(255,255,255,.96); border-top:2px solid var(--line); }
     .status { margin-right:auto; font-size:.88rem; color:var(--muted); }
-    @media (max-width:620px) { main{margin-top:24px}.item{grid-template-columns:1fr 1fr}.item-name{grid-column:1/-1}.btn{min-width:0}.editor-item .grid{grid-template-columns:1fr}.topbar{height:62px}.panel-body{padding:18px}.save-row{margin-left:-18px;margin-right:-18px;margin-bottom:-18px;padding:12px 18px} }
+    @media (max-width:980px) { main{grid-template-columns:repeat(2,minmax(0,1fr))} }
+    @media (max-width:720px) { main{width:min(100% - 20px,560px);margin-top:0;gap:10px;grid-template-columns:1fr}.section{padding:11px}.item{display:grid;grid-template-columns:1fr 1fr;gap:5px}.item-name{grid-column:1/-1;margin-right:0}.btn{min-width:0}.editor-item .grid{grid-template-columns:1fr}.topbar{height:46px;padding:7px 10px}.panel-body{padding:14px}.save-row{margin-left:-14px;margin-right:-14px;margin-bottom:-14px;padding:10px 14px} }
   </style>
 </head>
 <body>
-  <header class="topbar"><div class="brand" id="brand">My List</div><button class="admin-link" id="openAdmin">Admin</button></header>
+  <header class="topbar"><span class="signature" aria-label="@s_seoyi">@s_seoyi</span><button class="admin-link" id="openAdmin">Admin</button></header>
   <main id="content"><div class="empty">Loading list…</div></main>
 
   <div class="overlay" id="overlay" aria-hidden="true">
@@ -69,7 +75,6 @@
           <button class="btn primary" type="submit">Unlock admin</button><p class="hint" id="loginError" role="alert"></p>
         </form>
         <div class="admin-content" id="adminContent">
-          <div class="field"><label for="siteTitle">List title</label><input id="siteTitle"></div>
           <div id="editor"></div>
           <button class="btn" id="addSection" type="button">+ Add section</button>
           <hr style="border:0;border-top:1px solid var(--line);margin:24px 0">
@@ -87,7 +92,7 @@
     const safeUrl=value=>{ try { const u=new URL(value); return ['http:','https:'].includes(u.protocol)?u.href:'#'; } catch { return '#'; } };
     async function loadData(){ try { const r=await fetch('data.json?ts='+Date.now()); if(!r.ok) throw 0; data=await r.json(); } catch { data={title:'My List',sections:[]}; } renderList(); }
     function renderList(){
-      document.title=data.title||'My List'; $('#brand').textContent=data.title||'My List'; const root=$('#content'); root.textContent='';
+      document.title=data.title||'Link List'; const root=$('#content'); root.textContent='';
       if(!data.sections?.length){ root.innerHTML='<div class="empty">No items yet.</div>'; return; }
       data.sections.forEach(section=>{ const wrap=document.createElement('section'); wrap.className='section'; const h=document.createElement('h2'); h.className='section-title'; h.textContent=section.name||'Untitled section'; const list=document.createElement('div'); list.className='list';
         if(!section.items?.length){ const e=document.createElement('div'); e.className='empty'; e.textContent='No items in this section.'; list.append(e); }
@@ -97,11 +102,11 @@
     function closeAdmin(){ $('#overlay').classList.remove('open'); $('#overlay').setAttribute('aria-hidden','true'); }
     $('#openAdmin').onclick=openAdmin; $('#closeAdmin').onclick=closeAdmin; $('#overlay').onclick=e=>{if(e.target===$('#overlay'))closeAdmin()};
     document.addEventListener('keydown',e=>{if(e.key==='Escape')closeAdmin()});
-    $('#loginForm').onsubmit=e=>{ e.preventDefault(); if($('#password').value!==ADMIN_PASSWORD){$('#loginError').textContent='Incorrect password.';return} $('#loginForm').style.display='none'; $('#adminContent').classList.add('visible'); $('#siteTitle').value=data.title||''; $('#githubToken').value=sessionStorage.getItem('githubToken')||''; renderEditor(); };
+    $('#loginForm').onsubmit=e=>{ e.preventDefault(); if($('#password').value!==ADMIN_PASSWORD){$('#loginError').textContent='Incorrect password.';return} $('#loginForm').style.display='none'; $('#adminContent').classList.add('visible'); $('#githubToken').value=sessionStorage.getItem('githubToken')||''; renderEditor(); };
     function esc(v=''){ return String(v).replaceAll('&','&amp;').replaceAll('"','&quot;').replaceAll('<','&lt;').replaceAll('>','&gt;'); }
     function renderEditor(){ $('#editor').innerHTML=(data.sections||[]).map((s,si)=>`<div class="editor-section" data-si="${si}"><div class="editor-section-head"><input aria-label="Section name" value="${esc(s.name)}"><button class="btn small danger remove-section" type="button">Remove</button></div><div class="items">${(s.items||[]).map((it,ii)=>itemHtml(it,ii)).join('')}</div><div class="editor-actions"><button class="btn small add-item" type="button">+ Add item</button></div></div>`).join(''); bindEditor(); }
     function itemHtml(it,ii){return `<div class="editor-item" data-ii="${ii}"><div class="field"><label>Item name</label><input data-k="name" value="${esc(it.name)}"></div><div class="grid"><div class="field"><label>Visit URL</label><input data-k="visitUrl" type="url" value="${esc(it.visitUrl)}"></div><div class="field"><label>Configure URL</label><input data-k="configureUrl" type="url" value="${esc(it.configureUrl)}"></div></div><div class="editor-actions"><button class="btn small danger remove-item" type="button">Remove item</button></div></div>`}
-    function syncEditor(){ data.title=$('#siteTitle').value.trim()||'My List'; document.querySelectorAll('.editor-section').forEach((el,si)=>{ const s=data.sections[si]; s.name=el.querySelector('.editor-section-head input').value.trim(); el.querySelectorAll('.editor-item').forEach((row,ii)=>row.querySelectorAll('[data-k]').forEach(inp=>s.items[ii][inp.dataset.k]=inp.value.trim())); }); }
+    function syncEditor(){ document.querySelectorAll('.editor-section').forEach((el,si)=>{ const s=data.sections[si]; s.name=el.querySelector('.editor-section-head input').value.trim(); el.querySelectorAll('.editor-item').forEach((row,ii)=>row.querySelectorAll('[data-k]').forEach(inp=>s.items[ii][inp.dataset.k]=inp.value.trim())); }); }
     function bindEditor(){ document.querySelectorAll('.editor-section').forEach((el,si)=>{ el.querySelector('.remove-section').onclick=()=>{syncEditor();data.sections.splice(si,1);renderEditor()}; el.querySelector('.add-item').onclick=()=>{syncEditor();data.sections[si].items.push({id:uid('item'),name:'New item',visitUrl:'https://',configureUrl:'https://'});renderEditor()}; el.querySelectorAll('.remove-item').forEach((b,ii)=>b.onclick=()=>{syncEditor();data.sections[si].items.splice(ii,1);renderEditor()}); }); }
     $('#addSection').onclick=()=>{syncEditor();data.sections.push({id:uid('section'),name:'New section',items:[]});renderEditor()};
     $('#previewBtn').onclick=()=>{syncEditor();renderList();setStatus('Preview updated.')};
