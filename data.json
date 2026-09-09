@@ -1,0 +1,17 @@
+{
+  "title": "My List",
+  "sections": [
+    {
+      "id": "section-1",
+      "name": "Useful Links",
+      "items": [
+        {
+          "id": "item-1",
+          "name": "Example item",
+          "visitUrl": "https://example.com",
+          "configureUrl": "https://example.com"
+        }
+      ]
+    }
+  ]
+}

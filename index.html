@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="A simple, editable collection of useful links.">
+  <title>My List</title>
+  <style>
+    :root { --ink:#172033; --muted:#677189; --line:#dce2ec; --paper:#fff; --bg:#f4f6fa; --blue:#2457d6; --blue2:#1745b8; --danger:#c63f4a; }
+    * { box-sizing:border-box; }
+    body { margin:0; min-height:100vh; font:16px/1.5 Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; color:var(--ink); background:var(--bg); }
+    button,input { font:inherit; }
+    button { cursor:pointer; }
+    .topbar { height:68px; padding:0 max(20px,calc((100vw - 960px)/2)); display:flex; align-items:center; justify-content:space-between; background:var(--paper); border-bottom:1px solid var(--line); }
+    .brand { font-size:1.15rem; font-weight:750; letter-spacing:-.02em; }
+    .admin-link { border:1px solid var(--line); background:#fff; color:var(--ink); border-radius:9px; padding:9px 14px; font-weight:650; }
+    main { width:min(920px,calc(100% - 32px)); margin:38px auto 72px; }
+    .section { margin-bottom:30px; }
+    .section-title { margin:0 0 11px; font-size:1rem; text-transform:uppercase; letter-spacing:.08em; color:var(--muted); }
+    .list { overflow:hidden; border:1px solid var(--line); border-radius:14px; background:var(--paper); box-shadow:0 5px 18px rgba(31,47,76,.05); }
+    .item { display:grid; grid-template-columns:minmax(0,1fr) auto auto; align-items:center; gap:10px; min-height:67px; padding:12px 14px 12px 20px; border-bottom:1px solid var(--line); }
+    .item:last-child { border-bottom:0; }
+    .item-name { min-width:0; font-weight:680; overflow-wrap:anywhere; }
+    .btn { display:inline-flex; align-items:center; justify-content:center; min-width:104px; padding:10px 15px; border:1px solid var(--line); border-radius:9px; color:var(--ink); background:#fff; font-weight:700; text-decoration:none; transition:.15s ease; }
+    .btn:hover { border-color:#aeb8ca; transform:translateY(-1px); }
+    .btn.primary { border-color:var(--blue); background:var(--blue); color:#fff; }
+    .btn.primary:hover { background:var(--blue2); }
+    .empty { padding:34px 20px; text-align:center; color:var(--muted); background:#fff; border:1px dashed #bdc6d5; border-radius:14px; }
+    .overlay { position:fixed; inset:0; z-index:10; display:none; background:rgba(18,26,43,.42); backdrop-filter:blur(3px); }
+    .overlay.open { display:block; }
+    .panel { margin-left:auto; width:min(620px,100%); height:100%; overflow:auto; background:#fff; box-shadow:-16px 0 50px rgba(15,28,52,.18); }
+    .panel-head { position:sticky; top:0; z-index:2; display:flex; align-items:center; justify-content:space-between; padding:18px 22px; background:#fff; border-bottom:1px solid var(--line); }
+    .panel-head h2 { margin:0; font-size:1.18rem; }
+    .icon-btn { width:38px; height:38px; border:1px solid var(--line); border-radius:9px; background:#fff; font-size:1.25rem; }
+    .panel-body { padding:22px; }
+    .field { display:grid; gap:6px; margin-bottom:16px; }
+    label { font-size:.88rem; font-weight:720; color:#414c62; }
+    input { width:100%; border:1px solid #cbd3e0; border-radius:9px; padding:10px 12px; color:var(--ink); background:#fff; }
+    input:focus { outline:3px solid rgba(36,87,214,.14); border-color:var(--blue); }
+    .login { max-width:380px; margin:70px auto; }
+    .login h3 { margin:0 0 8px; font-size:1.4rem; }
+    .login p,.hint { color:var(--muted); font-size:.9rem; }
+    .admin-content { display:none; }
+    .admin-content.visible { display:block; }
+    .editor-section { padding:16px; margin-bottom:16px; border:1px solid var(--line); border-radius:12px; background:#f9fafc; }
+    .editor-section-head,.editor-actions,.save-row { display:flex; gap:9px; align-items:center; }
+    .editor-section-head input { font-weight:750; }
+    .editor-actions { justify-content:flex-end; margin-top:10px; flex-wrap:wrap; }
+    .editor-item { margin-top:12px; padding:13px; border:1px solid var(--line); border-radius:10px; background:#fff; }
+    .editor-item .grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+    .small { padding:8px 11px; min-width:auto; font-size:.88rem; }
+    .danger { color:var(--danger); }
+    .save-row { position:sticky; bottom:0; justify-content:flex-end; margin:24px -22px -22px; padding:14px 22px; background:rgba(255,255,255,.96); border-top:1px solid var(--line); }
+    .status { margin-right:auto; font-size:.88rem; color:var(--muted); }
+    @media (max-width:620px) { main{margin-top:24px}.item{grid-template-columns:1fr 1fr}.item-name{grid-column:1/-1}.btn{min-width:0}.editor-item .grid{grid-template-columns:1fr}.topbar{height:62px}.panel-body{padding:18px}.save-row{margin-left:-18px;margin-right:-18px;margin-bottom:-18px;padding:12px 18px} }
+  </style>
+</head>
+<body>
+  <header class="topbar"><div class="brand" id="brand">My List</div><button class="admin-link" id="openAdmin">Admin</button></header>
+  <main id="content"><div class="empty">Loading list…</div></main>
+
+  <div class="overlay" id="overlay" aria-hidden="true">
+    <aside class="panel" role="dialog" aria-modal="true" aria-label="Admin settings">
+      <div class="panel-head"><h2>Admin settings</h2><button class="icon-btn" id="closeAdmin" aria-label="Close">×</button></div>
+      <div class="panel-body">
+        <form class="login" id="loginForm">
+          <h3>Enter password</h3><p>Sign in to edit sections and links.</p>
+          <div class="field"><label for="password">Password</label><input id="password" type="password" autocomplete="current-password" required></div>
+          <button class="btn primary" type="submit">Unlock admin</button><p class="hint" id="loginError" role="alert"></p>
+        </form>
+        <div class="admin-content" id="adminContent">
+          <div class="field"><label for="siteTitle">List title</label><input id="siteTitle"></div>
+          <div id="editor"></div>
+          <button class="btn" id="addSection" type="button">+ Add section</button>
+          <hr style="border:0;border-top:1px solid var(--line);margin:24px 0">
+          <div class="field"><label for="githubToken">GitHub personal access token</label><input id="githubToken" type="password" autocomplete="off" placeholder="github_pat_…"><span class="hint">Kept only in this browser tab. The token needs Contents read/write access to phuongm1409/html-list.</span></div>
+          <div class="field"><label for="dataPath">Data file path</label><input id="dataPath" value="data.json"></div>
+          <div class="save-row"><span class="status" id="status"></span><button class="btn" id="previewBtn" type="button">Preview</button><button class="btn primary" id="saveBtn" type="button">Save to GitHub</button></div>
+        </div>
+      </div>
+    </aside>
+  </div>
+  <script>
+    const OWNER='phuongm1409', REPO='html-list', ADMIN_PASSWORD='ssi551';
+    let data={title:'My List',sections:[]};
+    const $=s=>document.querySelector(s), uid=p=>p+'-'+Date.now().toString(36)+Math.random().toString(36).slice(2,6);
+    const safeUrl=value=>{ try { const u=new URL(value); return ['http:','https:'].includes(u.protocol)?u.href:'#'; } catch { return '#'; } };
+    async function loadData(){ try { const r=await fetch('data.json?ts='+Date.now()); if(!r.ok) throw 0; data=await r.json(); } catch { data={title:'My List',sections:[]}; } renderList(); }
+    function renderList(){
+      document.title=data.title||'My List'; $('#brand').textContent=data.title||'My List'; const root=$('#content'); root.textContent='';
+      if(!data.sections?.length){ root.innerHTML='<div class="empty">No items yet.</div>'; return; }
+      data.sections.forEach(section=>{ const wrap=document.createElement('section'); wrap.className='section'; const h=document.createElement('h2'); h.className='section-title'; h.textContent=section.name||'Untitled section'; const list=document.createElement('div'); list.className='list';
+        if(!section.items?.length){ const e=document.createElement('div'); e.className='empty'; e.textContent='No items in this section.'; list.append(e); }
+        (section.items||[]).forEach(item=>{ const row=document.createElement('div'); row.className='item'; const name=document.createElement('div'); name.className='item-name'; name.textContent=item.name||'Untitled item'; const visit=document.createElement('a'); visit.className='btn primary'; visit.textContent='Visit'; visit.href=safeUrl(item.visitUrl); visit.target='_blank'; visit.rel='noopener noreferrer'; const config=document.createElement('a'); config.className='btn'; config.textContent='Configure'; config.href=safeUrl(item.configureUrl); config.target='_blank'; config.rel='noopener noreferrer'; row.append(name,visit,config); list.append(row); }); wrap.append(h,list); root.append(wrap); });
+    }
+    function openAdmin(){ $('#overlay').classList.add('open'); $('#overlay').setAttribute('aria-hidden','false'); setTimeout(()=>$('#password').focus(),0); }
+    function closeAdmin(){ $('#overlay').classList.remove('open'); $('#overlay').setAttribute('aria-hidden','true'); }
+    $('#openAdmin').onclick=openAdmin; $('#closeAdmin').onclick=closeAdmin; $('#overlay').onclick=e=>{if(e.target===$('#overlay'))closeAdmin()};
+    document.addEventListener('keydown',e=>{if(e.key==='Escape')closeAdmin()});
+    $('#loginForm').onsubmit=e=>{ e.preventDefault(); if($('#password').value!==ADMIN_PASSWORD){$('#loginError').textContent='Incorrect password.';return} $('#loginForm').style.display='none'; $('#adminContent').classList.add('visible'); $('#siteTitle').value=data.title||''; $('#githubToken').value=sessionStorage.getItem('githubToken')||''; renderEditor(); };
+    function esc(v=''){ return String(v).replaceAll('&','&amp;').replaceAll('"','&quot;').replaceAll('<','&lt;').replaceAll('>','&gt;'); }
+    function renderEditor(){ $('#editor').innerHTML=(data.sections||[]).map((s,si)=>`<div class="editor-section" data-si="${si}"><div class="editor-section-head"><input aria-label="Section name" value="${esc(s.name)}"><button class="btn small danger remove-section" type="button">Remove</button></div><div class="items">${(s.items||[]).map((it,ii)=>itemHtml(it,ii)).join('')}</div><div class="editor-actions"><button class="btn small add-item" type="button">+ Add item</button></div></div>`).join(''); bindEditor(); }
+    function itemHtml(it,ii){return `<div class="editor-item" data-ii="${ii}"><div class="field"><label>Item name</label><input data-k="name" value="${esc(it.name)}"></div><div class="grid"><div class="field"><label>Visit URL</label><input data-k="visitUrl" type="url" value="${esc(it.visitUrl)}"></div><div class="field"><label>Configure URL</label><input data-k="configureUrl" type="url" value="${esc(it.configureUrl)}"></div></div><div class="editor-actions"><button class="btn small danger remove-item" type="button">Remove item</button></div></div>`}
+    function syncEditor(){ data.title=$('#siteTitle').value.trim()||'My List'; document.querySelectorAll('.editor-section').forEach((el,si)=>{ const s=data.sections[si]; s.name=el.querySelector('.editor-section-head input').value.trim(); el.querySelectorAll('.editor-item').forEach((row,ii)=>row.querySelectorAll('[data-k]').forEach(inp=>s.items[ii][inp.dataset.k]=inp.value.trim())); }); }
+    function bindEditor(){ document.querySelectorAll('.editor-section').forEach((el,si)=>{ el.querySelector('.remove-section').onclick=()=>{syncEditor();data.sections.splice(si,1);renderEditor()}; el.querySelector('.add-item').onclick=()=>{syncEditor();data.sections[si].items.push({id:uid('item'),name:'New item',visitUrl:'https://',configureUrl:'https://'});renderEditor()}; el.querySelectorAll('.remove-item').forEach((b,ii)=>b.onclick=()=>{syncEditor();data.sections[si].items.splice(ii,1);renderEditor()}); }); }
+    $('#addSection').onclick=()=>{syncEditor();data.sections.push({id:uid('section'),name:'New section',items:[]});renderEditor()};
+    $('#previewBtn').onclick=()=>{syncEditor();renderList();setStatus('Preview updated.')};
+    function setStatus(msg,bad=false){const s=$('#status');s.textContent=msg;s.style.color=bad?'var(--danger)':'var(--muted)'}
+    function encodeBase64Unicode(str){const bytes=new TextEncoder().encode(str);let bin='';bytes.forEach(b=>bin+=String.fromCharCode(b));return btoa(bin)}
+    $('#saveBtn').onclick=async()=>{ syncEditor(); const token=$('#githubToken').value.trim(); const path=$('#dataPath').value.trim()||'data.json'; if(!token){setStatus('Enter a GitHub token first.',true);return} sessionStorage.setItem('githubToken',token); setStatus('Saving…'); $('#saveBtn').disabled=true;
+      try { const endpoint=`https://api.github.com/repos/${OWNER}/${REPO}/contents/${path}`; const headers={Accept:'application/vnd.github+json',Authorization:`Bearer ${token}`,'X-GitHub-Api-Version':'2022-11-28'}; const current=await fetch(endpoint,{headers}); let sha; if(current.ok) sha=(await current.json()).sha; else if(current.status!==404) throw new Error('Could not read the data file ('+current.status+').'); const body={message:'Update list data',content:encodeBase64Unicode(JSON.stringify(data,null,2)),branch:'main'}; if(sha)body.sha=sha; const saved=await fetch(endpoint,{method:'PUT',headers:{...headers,'Content-Type':'application/json'},body:JSON.stringify(body)}); if(!saved.ok){const detail=await saved.json().catch(()=>({}));throw new Error(detail.message||'GitHub rejected the save.')} renderList(); setStatus('Saved to GitHub.'); }
+      catch(err){setStatus(err.message||'Save failed.',true)} finally{$('#saveBtn').disabled=false}
+    };
+    loadData();
+  </script>
+</body>
+</html>
