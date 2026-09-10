@@ -18,17 +18,21 @@
     .signature { color:var(--green2); font-size:.8rem; font-style:italic; font-weight:300; letter-spacing:.035em; line-height:1; }
     .admin-link { border:1px solid #d7dde7; background:#fff; color:#4b5565; border-radius:6px; padding:6px 10px; font-size:.875rem; font-weight:600; transition:.15s ease; }
     .admin-link:hover{border-color:#aeb8c8;background:#f9fafb}
-    main { width:min(1320px,calc(100% - 28px)); margin:2px auto 48px; display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px; align-items:start; }
-    .section { min-width:0; padding:12px; border:1px solid var(--line); border-radius:9px; background:#fff; }
-    .section-title { margin:0 0 9px; font-size:.9375rem; font-weight:700; letter-spacing:-.005em; color:var(--green2); }
-    .list { display:grid; gap:6px; }
-    .item { display:flex; align-items:center; justify-content:flex-start; gap:3px; min-height:48px; padding:6px 6px 6px 10px; border:1px solid var(--line); border-radius:7px; background:var(--paper); }
-    .item:hover{border-color:#b7c8bd}
-    .item-name { min-width:0; flex:0 1 auto; margin-right:2px; font-weight:600; font-size:.9375rem; overflow-wrap:anywhere; }
-    .btn { display:inline-flex; align-items:center; justify-content:center; min-width:76px; padding:6px 8px; border:1px solid #d5dce6; border-radius:6px; color:#344054; background:#fff; font-weight:600; font-size:.875rem; line-height:1.25; text-decoration:none; transition:.15s ease; }
-    .btn:hover { border-color:#aeb8c8; background:#f8fafc; }
-    .btn.primary { border-color:var(--green); background:var(--green); color:#fff; box-shadow:0 1px 2px rgba(16,24,40,.08); }
-    .btn.primary:hover { background:var(--green2); }
+    main { width:min(1320px,calc(100% - 28px)); margin:2px auto 48px; padding:14px; display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:0; align-items:start; border:1px solid var(--line); border-radius:9px; background:#fff; }
+    .section { min-width:0; padding:6px 14px; }
+    .section + .section { border-left:1px solid var(--line); }
+    .section-title { margin:0 0 7px; font-size:.9375rem; font-weight:700; letter-spacing:-.005em; color:var(--green2); }
+    .list { display:grid; }
+    .item { display:grid; grid-template-columns:minmax(0,1fr) auto auto; align-items:center; gap:5px; min-height:45px; padding:6px 0; border-bottom:1px solid #e7ece9; background:transparent; }
+    .item:last-child { border-bottom:0; }
+    .item:hover { background:#f8fbf9; }
+    .item-info { min-width:0; display:flex; align-items:baseline; gap:6px; margin-right:8px; overflow:hidden; text-align:left; }
+    .item-name { flex:0 0 auto; min-width:0; max-width:100%; overflow:hidden; font-weight:600; font-size:.9375rem; white-space:nowrap; text-overflow:ellipsis; }
+    .item-detail { flex:1 1 auto; min-width:0; color:var(--muted); font-size:.75rem; font-weight:400; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+    .btn { display:inline-flex; flex:0 0 auto; align-items:center; justify-content:center; min-width:68px; padding:5px 7px; border:1px solid #e0e5e2; border-radius:5px; color:#667085; background:transparent; font-weight:500; font-size:.8125rem; line-height:1.25; text-decoration:none; transition:.15s ease; }
+    .btn:hover { border-color:#c8d0cb; color:#344054; background:#f5f7f6; }
+    .btn.primary { border-color:#d6e6db; background:#f3f9f5; color:var(--green2); box-shadow:none; }
+    .btn.primary:hover { border-color:#bcd5c4; background:#eaf5ed; }
     .empty { grid-column:1/-1; padding:34px 20px; text-align:center; color:var(--muted); background:#fff; border:2px dashed var(--line); border-radius:22px; }
     .overlay { position:fixed; inset:0; z-index:10; display:none; background:rgba(18,26,43,.42); backdrop-filter:blur(3px); }
     .overlay.open { display:block; }
@@ -57,8 +61,8 @@
     .danger { color:var(--danger); }
     .save-row { position:sticky; bottom:0; justify-content:flex-end; margin:24px -22px -22px; padding:14px 22px; background:rgba(255,255,255,.96); border-top:2px solid var(--line); }
     .status { margin-right:auto; font-size:.88rem; color:var(--muted); }
-    @media (max-width:980px) { main{grid-template-columns:repeat(2,minmax(0,1fr))} }
-    @media (max-width:720px) { main{width:min(100% - 20px,560px);margin-top:0;gap:10px;grid-template-columns:1fr}.section{padding:11px}.item{display:grid;grid-template-columns:1fr 1fr;gap:5px}.item-name{grid-column:1/-1;margin-right:0}.btn{min-width:0}.editor-item .grid{grid-template-columns:1fr}.topbar{height:46px;padding:7px 10px}.panel-body{padding:14px}.save-row{margin-left:-14px;margin-right:-14px;margin-bottom:-14px;padding:10px 14px} }
+    @media (max-width:980px) { main{grid-template-columns:repeat(2,minmax(0,1fr))}.section:nth-child(odd){border-left:0}.section:nth-child(n+3){border-top:1px solid var(--line);padding-top:14px;margin-top:8px} }
+    @media (max-width:720px) { main{width:min(100% - 20px,560px);margin-top:0;padding:8px;grid-template-columns:1fr}.section{padding:10px 6px}.section + .section,.section:nth-child(n+3){border-left:0;border-top:1px solid var(--line);padding-top:14px;margin-top:4px}.item{display:grid;grid-template-columns:1fr 1fr;gap:5px}.item-info{grid-column:1/-1;margin-right:0}.btn{min-width:0}.editor-item .grid{grid-template-columns:1fr}.topbar{height:46px;padding:7px 10px}.panel-body{padding:14px}.save-row{margin-left:-14px;margin-right:-14px;margin-bottom:-14px;padding:10px 14px} }
   </style>
 </head>
 <body>
@@ -96,7 +100,7 @@
       if(!data.sections?.length){ root.innerHTML='<div class="empty">No items yet.</div>'; return; }
       data.sections.forEach(section=>{ const wrap=document.createElement('section'); wrap.className='section'; const h=document.createElement('h2'); h.className='section-title'; h.textContent=section.name||'Untitled section'; const list=document.createElement('div'); list.className='list';
         if(!section.items?.length){ const e=document.createElement('div'); e.className='empty'; e.textContent='No items in this section.'; list.append(e); }
-        (section.items||[]).forEach(item=>{ const row=document.createElement('div'); row.className='item'; const name=document.createElement('div'); name.className='item-name'; name.textContent=item.name||'Untitled item'; const visit=document.createElement('a'); visit.className='btn primary'; visit.textContent='Visit'; visit.href=safeUrl(item.visitUrl); visit.target='_blank'; visit.rel='noopener noreferrer'; const config=document.createElement('a'); config.className='btn'; config.textContent='Configure'; config.href=safeUrl(item.configureUrl); config.target='_blank'; config.rel='noopener noreferrer'; row.append(name,visit,config); list.append(row); }); wrap.append(h,list); root.append(wrap); });
+        (section.items||[]).forEach(item=>{ const row=document.createElement('div'); row.className='item'; const info=document.createElement('div'); info.className='item-info'; const name=document.createElement('span'); name.className='item-name'; name.textContent=item.name||'Untitled item'; info.append(name); if(item.detail){const detail=document.createElement('span');detail.className='item-detail';detail.textContent=item.detail;info.append(detail)} const visit=document.createElement('a'); visit.className='btn primary'; visit.textContent='Visit'; visit.href=safeUrl(item.visitUrl); visit.target='_blank'; visit.rel='noopener noreferrer'; const config=document.createElement('a'); config.className='btn'; config.textContent='Configure'; config.href=safeUrl(item.configureUrl); config.target='_blank'; config.rel='noopener noreferrer'; row.append(info,visit,config); list.append(row); }); wrap.append(h,list); root.append(wrap); });
     }
     function openAdmin(){ $('#overlay').classList.add('open'); $('#overlay').setAttribute('aria-hidden','false'); setTimeout(()=>$('#password').focus(),0); }
     function closeAdmin(){ $('#overlay').classList.remove('open'); $('#overlay').setAttribute('aria-hidden','true'); }
@@ -105,9 +109,9 @@
     $('#loginForm').onsubmit=e=>{ e.preventDefault(); if($('#password').value!==ADMIN_PASSWORD){$('#loginError').textContent='Incorrect password.';return} $('#loginForm').style.display='none'; $('#adminContent').classList.add('visible'); $('#githubToken').value=sessionStorage.getItem('githubToken')||''; renderEditor(); };
     function esc(v=''){ return String(v).replaceAll('&','&amp;').replaceAll('"','&quot;').replaceAll('<','&lt;').replaceAll('>','&gt;'); }
     function renderEditor(){ $('#editor').innerHTML=(data.sections||[]).map((s,si)=>`<div class="editor-section" data-si="${si}"><div class="editor-section-head"><input aria-label="Section name" value="${esc(s.name)}"><button class="btn small danger remove-section" type="button">Remove</button></div><div class="items">${(s.items||[]).map((it,ii)=>itemHtml(it,ii)).join('')}</div><div class="editor-actions"><button class="btn small add-item" type="button">+ Add item</button></div></div>`).join(''); bindEditor(); }
-    function itemHtml(it,ii){return `<div class="editor-item" data-ii="${ii}"><div class="field"><label>Item name</label><input data-k="name" value="${esc(it.name)}"></div><div class="grid"><div class="field"><label>Visit URL</label><input data-k="visitUrl" type="url" value="${esc(it.visitUrl)}"></div><div class="field"><label>Configure URL</label><input data-k="configureUrl" type="url" value="${esc(it.configureUrl)}"></div></div><div class="editor-actions"><button class="btn small danger remove-item" type="button">Remove item</button></div></div>`}
+    function itemHtml(it,ii){return `<div class="editor-item" data-ii="${ii}"><div class="grid"><div class="field"><label>Item name</label><input data-k="name" value="${esc(it.name)}"></div><div class="field"><label>Small detail</label><input data-k="detail" value="${esc(it.detail||'')}" placeholder="Optional"></div></div><div class="grid"><div class="field"><label>Visit URL</label><input data-k="visitUrl" type="url" value="${esc(it.visitUrl)}"></div><div class="field"><label>Configure URL</label><input data-k="configureUrl" type="url" value="${esc(it.configureUrl)}"></div></div><div class="editor-actions"><button class="btn small danger remove-item" type="button">Remove item</button></div></div>`}
     function syncEditor(){ document.querySelectorAll('.editor-section').forEach((el,si)=>{ const s=data.sections[si]; s.name=el.querySelector('.editor-section-head input').value.trim(); el.querySelectorAll('.editor-item').forEach((row,ii)=>row.querySelectorAll('[data-k]').forEach(inp=>s.items[ii][inp.dataset.k]=inp.value.trim())); }); }
-    function bindEditor(){ document.querySelectorAll('.editor-section').forEach((el,si)=>{ el.querySelector('.remove-section').onclick=()=>{syncEditor();data.sections.splice(si,1);renderEditor()}; el.querySelector('.add-item').onclick=()=>{syncEditor();data.sections[si].items.push({id:uid('item'),name:'New item',visitUrl:'https://',configureUrl:'https://'});renderEditor()}; el.querySelectorAll('.remove-item').forEach((b,ii)=>b.onclick=()=>{syncEditor();data.sections[si].items.splice(ii,1);renderEditor()}); }); }
+    function bindEditor(){ document.querySelectorAll('.editor-section').forEach((el,si)=>{ el.querySelector('.remove-section').onclick=()=>{syncEditor();data.sections.splice(si,1);renderEditor()}; el.querySelector('.add-item').onclick=()=>{syncEditor();data.sections[si].items.push({id:uid('item'),name:'New item',detail:'',visitUrl:'https://',configureUrl:'https://'});renderEditor()}; el.querySelectorAll('.remove-item').forEach((b,ii)=>b.onclick=()=>{syncEditor();data.sections[si].items.splice(ii,1);renderEditor()}); }); }
     $('#addSection').onclick=()=>{syncEditor();data.sections.push({id:uid('section'),name:'New section',items:[]});renderEditor()};
     $('#previewBtn').onclick=()=>{syncEditor();renderList();setStatus('Preview updated.')};
     function setStatus(msg,bad=false){const s=$('#status');s.textContent=msg;s.style.color=bad?'var(--danger)':'var(--muted)'}
@@ -120,3 +124,4 @@
   </script>
 </body>
 </html>
+
