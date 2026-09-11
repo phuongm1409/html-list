@@ -12,6 +12,14 @@
           "configureUrl": "https://github.com/phuongm1409/trace",
           "detail": "A bilingual board helping children trace words and practice handwriting.",
           "imageUrl": "images/item-1-1789092604626-screenshot-2026-09-11-090949.png"
+        },
+        {
+          "id": "item-mtwcbj4355gk",
+          "name": "Word Fish",
+          "detail": "Practice English and Math and decorate your Fish Tank!",
+          "imageUrl": "images/item-mtwcbj4355gk-1789094040805-screenshot-2026-09-11-093202.png",
+          "visitUrl": "https://sseoyi.github.io/wordfish",
+          "configureUrl": "https://github.com/sseoyi/wordfish"
         }
       ]
     },
