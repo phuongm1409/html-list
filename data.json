@@ -3,13 +3,14 @@
   "sections": [
     {
       "id": "section-1",
-      "name": "Useful Links",
+      "name": "Education",
       "items": [
         {
           "id": "item-1",
-          "name": "Example item",
-          "visitUrl": "https://example.com",
-          "configureUrl": "https://example.com"
+          "name": "Word Trace",
+          "visitUrl": "https://phuongm1409.github.io/trace/",
+          "configureUrl": "https://github.com/phuongm1409/trace",
+          "detail": "A bilingual board helping children trace words and practice handwriting."
         }
       ]
     }
