@@ -44,6 +44,20 @@
           "configureUrl": "https://github.com/phuongm1409/typetum"
         }
       ]
+    },
+    {
+      "id": "section-mu1zjel77awh",
+      "name": "Work",
+      "items": [
+        {
+          "id": "item-mu1zjle3nhno",
+          "name": "Prep Tools",
+          "detail": "A text converter, audio merger, and personal resource storage.",
+          "imageUrl": "images/item-mu1zjle3nhno-1789435341556-screenshot-2026-09-15-082211.png",
+          "visitUrl": "https://script.google.com/a/macros/ila.edu.vn/s/AKfycbww-TaR7pZEsABUjcmeoNROdlyqE1LiZFMDbPsV3KiD5wqd3mL1JDTIIgH7tt0UQTDF4g/exec",
+          "configureUrl": "https://script.google.com/home/projects/1DkVJX7TC6QCQ0bHcdwfYsPb4BRGXnutb8N_Rp-pxhI2DeExWvVwidLyl/edit"
+        }
+      ]
     }
   ]
 }
