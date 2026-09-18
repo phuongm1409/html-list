@@ -7,7 +7,7 @@
   <title>My List</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400..800&family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     :root { --ink:#172033; --muted:#697386; --line:#dfe7e2; --paper:#fff; --bg:#f3f8f5; --green:#16a34a; --green2:#15803d; --mint:#e9f9ee; --danger:#c9475b; }
     * { box-sizing:border-box; }
@@ -40,35 +40,84 @@
     .btn.primary { border-color:#d6e6db; background:#f3f9f5; color:var(--green2); box-shadow:none; }
     .btn.primary:hover { border-color:#bcd5c4; background:#eaf5ed; }
     .empty { grid-column:1/-1; padding:34px 20px; text-align:center; color:var(--muted); background:#fff; border:2px dashed var(--line); border-radius:22px; }
-    .overlay { position:fixed; inset:0; z-index:10; display:none; background:rgba(18,26,43,.42); backdrop-filter:blur(3px); }
+    .overlay { position:fixed; inset:0; z-index:10; display:none; padding:12px; background:rgba(18,26,43,.46); backdrop-filter:blur(5px); }
     .overlay.open { display:block; }
-    .panel { margin-left:auto; width:min(600px,100%); height:100%; overflow:auto; background:#fff; box-shadow:-12px 0 36px rgba(15,28,52,.16); }
-    .panel-head { position:sticky; top:0; z-index:2; display:flex; align-items:center; justify-content:space-between; padding:14px 18px; background:rgba(255,255,255,.96); border-bottom:1px solid var(--line); backdrop-filter:blur(12px); }
+    .panel { width:min(1180px,100%); height:100%; margin:auto; overflow:auto; background:#f6f9f7; border:1px solid rgba(255,255,255,.7); border-radius:12px; box-shadow:0 24px 70px rgba(15,28,52,.22); }
+    .panel-head { position:sticky; top:0; z-index:4; display:flex; align-items:center; justify-content:space-between; padding:13px 20px; background:rgba(255,255,255,.95); border-bottom:1px solid var(--line); backdrop-filter:blur(12px); }
     .panel-head h2,.login h3 { font-family:"Inter",sans-serif; }
-    .panel-head h2 { margin:0; font-size:1.125rem; }
+    .panel-head h2 { margin:0; font-size:1rem; color:var(--green2); }
     .icon-btn { width:34px; height:34px; border:1px solid var(--line); border-radius:7px; background:#fff; color:#344054; font-size:1.1rem; }
-    .panel-body { padding:18px; }
+    .panel-body { padding:20px; }
     .field { display:grid; gap:5px; margin-bottom:12px; }
     label { font-size:.88rem; font-weight:720; color:#414c62; }
     input { width:100%; border:1px solid #cfd6e1; border-radius:7px; padding:8px 10px; color:var(--ink); background:#fff; }
     input:focus { outline:3px solid rgba(22,163,74,.14); border-color:var(--green); }
-    .login { max-width:380px; margin:70px auto; }
+    .login { max-width:400px; margin:10vh auto; padding:28px; background:#fff; border:1px solid var(--line); border-radius:10px; }
     .login h3 { margin:0 0 8px; font-size:1.4rem; }
     .login p,.hint { color:var(--muted); font-size:.9rem; }
     .admin-content { display:none; }
     .admin-content.visible { display:block; }
-    .editor-section { padding:12px; margin-bottom:12px; border:1px solid var(--line); border-radius:9px; background:#f8fafc; }
+    .admin-intro { margin-bottom:14px; }
+    .admin-intro h3 { margin:0 0 3px; font-size:1.25rem; }
+    .admin-intro p { margin:0; color:var(--muted); font-size:.875rem; }
+    .settings-card { display:grid; grid-template-columns:minmax(0,2fr) minmax(180px,1fr); gap:12px; padding:14px; margin-bottom:14px; background:#fff; border:1px solid var(--line); border-radius:9px; }
+    .settings-card .field { margin:0; }
+    .admin-section-bar { display:flex; align-items:center; justify-content:space-between; margin:18px 0 10px; }
+    .admin-section-bar h3 { margin:0; font-size:1rem; }
+    #editor { display:grid; gap:14px; }
+    .editor-section { padding:14px; border:1px solid var(--line); border-radius:10px; background:#fff; box-shadow:0 1px 2px rgba(18,32,25,.03); }
     .editor-section-head,.editor-actions,.save-row { display:flex; gap:9px; align-items:center; }
-    .editor-section-head input { font-weight:750; }
+    .editor-section-head { padding-bottom:12px; border-bottom:1px solid var(--line); }
+    .editor-section-head input { font-weight:700; border:0; padding:6px 4px; background:transparent; }
+    .editor-section-head input:hover { background:#f7faf8; }
+    .section-count { flex:0 0 auto; padding:3px 7px; border-radius:999px; color:var(--muted); background:#f0f4f1; font-size:.72rem; }
     .editor-actions { justify-content:flex-end; margin-top:10px; flex-wrap:wrap; }
-    .editor-item { margin-top:9px; padding:10px; border:1px solid var(--line); border-radius:8px; background:#fff; }
+    .editor-section .items { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; }
+    .editor-item { min-width:0; margin-top:10px; padding:12px; border:1px solid var(--line); border-radius:8px; background:#f9fbfa; }
     .editor-item .grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+    .admin-thumb { width:100%; aspect-ratio:16/5; margin-bottom:10px; overflow:hidden; display:grid; place-items:center; color:var(--muted); background:#eef2ef; border:1px dashed #ccd7d0; border-radius:6px; font-size:.78rem; }
+    .admin-thumb img { width:100%; height:100%; object-fit:cover; }
+    input[type=file] { padding:7px; background:#fff; font-size:.8rem; }
     .small { padding:8px 11px; min-width:auto; font-size:.88rem; }
     .danger { color:var(--danger); }
-    .save-row { position:sticky; bottom:0; justify-content:flex-end; margin:24px -22px -22px; padding:14px 22px; background:rgba(255,255,255,.96); border-top:2px solid var(--line); }
+    .save-row { position:sticky; z-index:3; bottom:-20px; justify-content:flex-end; margin:20px -20px -20px; padding:12px 20px; background:rgba(255,255,255,.96); border-top:1px solid var(--line); backdrop-filter:blur(10px); }
     .status { margin-right:auto; font-size:.88rem; color:var(--muted); }
     @media (max-width:980px) { main{grid-template-columns:repeat(2,minmax(0,1fr))}.section:nth-child(odd){border-left:0}.section:nth-child(n+3){border-top:1px solid var(--line);padding-top:14px;margin-top:8px} }
-    @media (max-width:720px) { main{width:min(100% - 20px,560px);margin-top:0;padding:8px;grid-template-columns:1fr}.section{padding:10px 6px}.section + .section,.section:nth-child(n+3){border-left:0;border-top:1px solid var(--line);padding-top:14px;margin-top:4px}.item{grid-template-columns:1fr 1fr;min-height:145px;padding:14px}.item-info{grid-column:1/-1}.item>.btn.primary{grid-column:1}.item>.btn:not(.primary){grid-column:2}.btn{min-width:0}.editor-item .grid{grid-template-columns:1fr}.topbar{height:46px;padding:7px 10px}.panel-body{padding:14px}.save-row{margin-left:-14px;margin-right:-14px;margin-bottom:-14px;padding:10px 14px} }
+    @media (max-width:720px) { main{width:min(100% - 20px,560px);margin-top:0;padding:8px;grid-template-columns:1fr}.section{padding:10px 6px}.section + .section,.section:nth-child(n+3){border-left:0;border-top:1px solid var(--line);padding-top:14px;margin-top:4px}.item{grid-template-columns:1fr 1fr;min-height:145px;padding:14px}.item-info{grid-column:1/-1}.item>.btn.primary{grid-column:1}.item>.btn:not(.primary){grid-column:2}.btn{min-width:0}.overlay{padding:0}.panel{border-radius:0;border:0}.settings-card,.editor-section .items,.editor-item .grid{grid-template-columns:1fr}.topbar{height:46px;padding:7px 10px}.panel-body{padding:14px}.save-row{bottom:-14px;margin-left:-14px;margin-right:-14px;margin-bottom:-14px;padding:10px 14px} }
+
+    /* Supplied modular-tool UI, scoped to Admin only */
+    .panel { --admin-ink:#17151a; --admin-muted:#77717c; --admin-line:#e3dfe5; --admin-fill:#f3f0f5; --admin-lime:#b8f238; --admin-lime-deep:#6f9500; --admin-black-grad:linear-gradient(150deg,#2e2a31 0%,#17151a 60%,#000 100%); --admin-lime-grad:linear-gradient(150deg,#d7ff7d 0%,#b8f238 70%,#8fc719 100%); color:var(--admin-ink); font-family:"Baloo 2",sans-serif; background:radial-gradient(circle at 12% -8%,#eefbcf 0%,transparent 36%),radial-gradient(circle at 105% 8%,#eeeaf2 0%,transparent 38%),radial-gradient(circle at 50% 115%,#f0edf4 0%,transparent 45%),#f8f7f8; border-radius:22px; }
+    @keyframes libraryFade{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+    .panel-head,.settings-card,.editor-section,.login { border-width:1.5px; }
+    .panel .panel-head h2 { color:var(--admin-ink); }
+    .panel .panel-head,.panel .settings-card,.panel .editor-section,.panel .editor-item,.panel .login,.panel .admin-thumb { border-color:var(--admin-line); }
+    .panel .settings-card,.panel .editor-section,.panel .editor-item,.panel .login { background:#fff; }
+    .panel .hint,.panel .status,.panel .admin-intro p { color:var(--admin-muted); }
+    .admin-tabs { position:relative; display:flex; width:fit-content; margin:0 auto 18px; padding:3px; border:1.5px solid var(--admin-line); border-radius:999px; background:var(--admin-fill); }
+    .admin-tab { padding:7px 20px; border:0; border-radius:999px; color:var(--admin-muted); background:transparent; font-family:inherit; font-size:.8rem; font-weight:700; }
+    .admin-tab.active { color:#fff; background:var(--admin-black-grad); box-shadow:0 3px 8px -2px rgba(23,21,26,.4); }
+    .admin-pane { display:none; }
+    .admin-pane.active { display:block; animation:libraryFade .25s ease; }
+    .panel input { border-width:1.5px; border-color:var(--admin-line); border-radius:10px; background:var(--admin-fill); font-family:"Poppins",sans-serif; font-size:.8rem; }
+    .panel input:focus { border-color:var(--admin-ink); box-shadow:0 0 0 3px #eefbcf; outline:0; }
+    .panel .btn { border-width:1.5px; border-radius:10px; font-family:"Baloo 2",sans-serif; font-weight:700; transition:transform .18s cubic-bezier(.34,1.56,.64,1),box-shadow .2s ease; }
+    .panel .btn:hover { transform:translateY(-1px) scale(1.02); }
+    .panel .btn.primary { color:#fff; border-color:transparent; background:var(--admin-black-grad); box-shadow:0 4px 0 #000; }
+    .panel #saveBtn { color:var(--admin-ink); background:var(--admin-lime-grad); box-shadow:0 4px 0 var(--admin-lime-deep); }
+    .editor-section { padding:0; overflow:hidden; border-radius:14px; }
+    .editor-section > summary,.editor-item > summary { list-style:none; cursor:pointer; }
+    .editor-section > summary::-webkit-details-marker,.editor-item > summary::-webkit-details-marker{display:none}
+    .editor-section > summary { display:flex; align-items:center; gap:8px; padding:11px 13px; font-weight:700; }
+    .editor-section > summary::after,.editor-item > summary::after { content:"⌄"; margin-left:auto; color:var(--admin-ink); transition:transform .2s ease; }
+    .editor-section[open] > summary::after,.editor-item[open] > summary::after { transform:rotate(180deg); }
+    .category-controls { display:grid; grid-template-columns:minmax(0,1fr) auto; gap:9px; padding:0 13px 10px; border-bottom:1.5px solid var(--line); }
+    .editor-section .items { padding:0 13px 3px; }
+    .editor-section > .editor-actions { padding:0 13px 12px; }
+    .editor-item { padding:0; overflow:hidden; border-width:1.5px; border-radius:14px; background:#fff; }
+    .editor-item > summary { display:flex; align-items:center; gap:8px; padding:10px 12px; font-weight:700; }
+    .editor-item-summary-note { color:var(--admin-muted); font-family:"Poppins",sans-serif; font-size:.68rem; font-weight:500; }
+    .editor-item-body { padding:0 12px 12px; border-top:1px solid var(--line); }
+    @media(max-width:560px){.panel{border-radius:0}}
   </style>
 </head>
 <body>
@@ -85,11 +134,22 @@
           <button class="btn primary" type="submit">Unlock admin</button><p class="hint" id="loginError" role="alert"></p>
         </form>
         <div class="admin-content" id="adminContent">
-          <div id="editor"></div>
-          <button class="btn" id="addSection" type="button">+ Add section</button>
-          <hr style="border:0;border-top:1px solid var(--line);margin:24px 0">
-          <div class="field"><label for="githubToken">GitHub personal access token</label><input id="githubToken" type="password" autocomplete="off" placeholder="github_pat_…"><span class="hint">Kept only in this browser tab. The token needs Contents read/write access to phuongm1409/html-list.</span></div>
-          <div class="field"><label for="dataPath">Data file path</label><input id="dataPath" value="data.json"></div>
+          <div class="admin-tabs" role="tablist">
+            <button class="admin-tab active" data-admin-tab="library" type="button">Library</button>
+            <button class="admin-tab" data-admin-tab="repository" type="button">Repository</button>
+          </div>
+          <div class="admin-pane active" data-admin-pane="library">
+            <div class="admin-intro"><h3>Library manager</h3><p>Open only the category and card you want to edit.</p></div>
+            <div class="admin-section-bar"><h3>Categories</h3><button class="btn primary small" id="addSection" type="button">+ New category</button></div>
+            <div id="editor"></div>
+          </div>
+          <div class="admin-pane" data-admin-pane="repository">
+            <div class="admin-intro"><h3>Repository settings</h3><p>Connection details for data and thumbnail uploads.</p></div>
+            <div class="settings-card">
+              <div class="field"><label for="githubToken">GitHub personal access token</label><input id="githubToken" type="password" autocomplete="off" placeholder="github_pat_…"><span class="hint">Stored only in this browser tab. Requires Contents read/write access.</span></div>
+              <div class="field"><label for="dataPath">Library data file</label><input id="dataPath" value="data.json"><span class="hint">phuongm1409/html-list</span></div>
+            </div>
+          </div>
           <div class="save-row"><span class="status" id="status"></span><button class="btn" id="previewBtn" type="button">Preview</button><button class="btn primary" id="saveBtn" type="button">Save to GitHub</button></div>
         </div>
       </div>
@@ -114,11 +174,12 @@
     $('#openAdmin').onclick=openAdmin; $('#closeAdmin').onclick=closeAdmin; $('#overlay').onclick=e=>{if(e.target===$('#overlay'))closeAdmin()};
     document.addEventListener('keydown',e=>{if(e.key==='Escape')closeAdmin()});
     $('#loginForm').onsubmit=e=>{ e.preventDefault(); if($('#password').value!==ADMIN_PASSWORD){$('#loginError').textContent='Incorrect password.';return} $('#loginForm').style.display='none'; $('#adminContent').classList.add('visible'); $('#githubToken').value=sessionStorage.getItem('githubToken')||''; renderEditor(); };
+    document.querySelectorAll('.admin-tab').forEach(tab=>tab.onclick=()=>{document.querySelectorAll('.admin-tab').forEach(btn=>btn.classList.toggle('active',btn===tab));document.querySelectorAll('.admin-pane').forEach(pane=>pane.classList.toggle('active',pane.dataset.adminPane===tab.dataset.adminTab))});
     function esc(v=''){ return String(v).replaceAll('&','&amp;').replaceAll('"','&quot;').replaceAll('<','&lt;').replaceAll('>','&gt;'); }
-    function renderEditor(){ $('#editor').innerHTML=(data.sections||[]).map((s,si)=>`<div class="editor-section" data-si="${si}"><div class="editor-section-head"><input aria-label="Section name" value="${esc(s.name)}"><button class="btn small danger remove-section" type="button">Remove</button></div><div class="items">${(s.items||[]).map((it,ii)=>itemHtml(it,ii)).join('')}</div><div class="editor-actions"><button class="btn small add-item" type="button">+ Add item</button></div></div>`).join(''); bindEditor(); }
-    function itemHtml(it,ii){return `<div class="editor-item" data-ii="${ii}"><div class="grid"><div class="field"><label>Item name</label><input data-k="name" value="${esc(it.name)}"></div><div class="field"><label>Small detail</label><input data-k="detail" value="${esc(it.detail||'')}" placeholder="Optional"></div></div><div class="field"><label>Thumbnail image (16:9)</label><input data-image-upload data-item-id="${esc(it.id)}" type="file" accept="image/*"><span class="hint">${it.imageUrl?'Current: '+esc(it.imageUrl):'The selected image will be stored in the repository images folder.'}</span></div><div class="grid"><div class="field"><label>Visit URL</label><input data-k="visitUrl" type="url" value="${esc(it.visitUrl)}"></div><div class="field"><label>Configure URL</label><input data-k="configureUrl" type="url" value="${esc(it.configureUrl)}"></div></div><div class="editor-actions"><button class="btn small danger remove-item" type="button">Remove item</button></div></div>`}
-    function syncEditor(){ document.querySelectorAll('.editor-section').forEach((el,si)=>{ const s=data.sections[si]; s.name=el.querySelector('.editor-section-head input').value.trim(); el.querySelectorAll('.editor-item').forEach((row,ii)=>row.querySelectorAll('[data-k]').forEach(inp=>s.items[ii][inp.dataset.k]=inp.value.trim())); }); }
-    function bindEditor(){ document.querySelectorAll('[data-image-upload]').forEach(input=>input.onchange=()=>{const file=input.files?.[0];if(file)selectedImages.set(input.dataset.itemId,file)}); document.querySelectorAll('.editor-section').forEach((el,si)=>{ el.querySelector('.remove-section').onclick=()=>{syncEditor();(data.sections[si].items||[]).forEach(it=>selectedImages.delete(it.id));data.sections.splice(si,1);renderEditor()}; el.querySelector('.add-item').onclick=()=>{syncEditor();data.sections[si].items.push({id:uid('item'),name:'New item',detail:'',imageUrl:'',visitUrl:'https://',configureUrl:'https://'});renderEditor()}; el.querySelectorAll('.remove-item').forEach((b,ii)=>b.onclick=()=>{syncEditor();selectedImages.delete(data.sections[si].items[ii].id);data.sections[si].items.splice(ii,1);renderEditor()}); }); }
+    function renderEditor(){ $('#editor').innerHTML=(data.sections||[]).map((s,si)=>`<details class="editor-section" data-si="${si}" ${si===0?'open':''}><summary><span>${esc(s.name||'Untitled category')}</span><span class="section-count">${(s.items||[]).length} ${(s.items||[]).length===1?'card':'cards'}</span></summary><div class="category-controls"><input class="category-name-input" aria-label="Category name" value="${esc(s.name)}"><button class="btn small danger remove-section" type="button">Delete category</button></div><div class="items">${(s.items||[]).map((it,ii)=>itemHtml(it,ii)).join('')}</div><div class="editor-actions"><button class="btn small add-item" type="button">+ Add card</button></div></details>`).join(''); bindEditor(); }
+    function itemHtml(it,ii){const preview=it.imageUrl?`<img src="${esc(safeUrl(it.imageUrl))}" alt="">`:'No thumbnail yet';return `<details class="editor-item" data-ii="${ii}"><summary><span>${esc(it.name||'Untitled card')}</span><span class="editor-item-summary-note">Edit card</span></summary><div class="editor-item-body"><div class="admin-thumb">${preview}</div><div class="grid"><div class="field"><label>Card title</label><input data-k="name" value="${esc(it.name)}" placeholder="Item name"></div><div class="field"><label>Description</label><input data-k="detail" value="${esc(it.detail||'')}" placeholder="Short description"></div></div><div class="field"><label>Thumbnail image (16:9)</label><input data-image-upload data-item-id="${esc(it.id)}" type="file" accept="image/*"><span class="hint">${it.imageUrl?'Current file: '+esc(it.imageUrl):'Uploads to the repository images folder when saved.'}</span></div><div class="grid"><div class="field"><label>Visit URL</label><input data-k="visitUrl" type="url" value="${esc(it.visitUrl)}"></div><div class="field"><label>Configure URL</label><input data-k="configureUrl" type="url" value="${esc(it.configureUrl)}"></div></div><div class="editor-actions"><button class="btn small danger remove-item" type="button">Delete card</button></div></div></details>`}
+    function syncEditor(){ document.querySelectorAll('.editor-section').forEach((el,si)=>{ const s=data.sections[si]; s.name=el.querySelector('.category-name-input').value.trim(); el.querySelectorAll('.editor-item').forEach((row,ii)=>row.querySelectorAll('[data-k]').forEach(inp=>s.items[ii][inp.dataset.k]=inp.value.trim())); }); }
+    function bindEditor(){ document.querySelectorAll('[data-image-upload]').forEach(input=>input.onchange=()=>{const file=input.files?.[0];if(!file)return;selectedImages.set(input.dataset.itemId,file);const box=input.closest('.editor-item').querySelector('.admin-thumb');const img=document.createElement('img');img.src=URL.createObjectURL(file);img.alt='Selected thumbnail preview';box.textContent='';box.append(img)}); document.querySelectorAll('.editor-section').forEach((el,si)=>{ el.querySelector('.remove-section').onclick=()=>{if(!confirm('Delete this category and all its cards?'))return;syncEditor();(data.sections[si].items||[]).forEach(it=>selectedImages.delete(it.id));data.sections.splice(si,1);renderEditor()}; el.querySelector('.add-item').onclick=()=>{syncEditor();data.sections[si].items.push({id:uid('item'),name:'New item',detail:'',imageUrl:'',visitUrl:'https://',configureUrl:'https://'});renderEditor()}; el.querySelectorAll('.remove-item').forEach((b,ii)=>b.onclick=()=>{if(!confirm('Delete this card?'))return;syncEditor();selectedImages.delete(data.sections[si].items[ii].id);data.sections[si].items.splice(ii,1);renderEditor()}); }); }
     $('#addSection').onclick=()=>{syncEditor();data.sections.push({id:uid('section'),name:'New section',items:[]});renderEditor()};
     $('#previewBtn').onclick=()=>{syncEditor();renderList();setStatus('Preview updated.')};
     function setStatus(msg,bad=false){const s=$('#status');s.textContent=msg;s.style.color=bad?'var(--danger)':'var(--muted)'}
