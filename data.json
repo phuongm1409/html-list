@@ -90,6 +90,20 @@
           "configureUrl": "https://script.google.com/home/projects/1OMD9dYdVSfsMaGww3fbuTr2F8HZf5uhQuo0jeqrXk9nsAIWQ-TmjZPCP/edit"
         }
       ]
+    },
+    {
+      "id": "section-muovi1pss32l",
+      "name": "Personal",
+      "items": [
+        {
+          "id": "item-muovi6g8pymt",
+          "name": "Homepage",
+          "detail": "A homepage for your browser with your loved features.",
+          "imageUrl": "images/item-muovi6g8pymt-1790819273521-screenshot-2026-10-01-084716.png",
+          "visitUrl": "https://aleciarf.github.io/homepage/",
+          "configureUrl": "https://github.com/aleciarf/homepage"
+        }
+      ]
     }
   ]
 }
